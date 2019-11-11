@@ -12,8 +12,8 @@ class KairosPublishServiceTest extends TestCase
      */
     public function testNewKairosPublishService()
     {
-        $KairosPublishService = new KairosPublishService(new Kairos);
-        $this->assertInstanceOf(KairosPublishService::class, $KairosPublishService);
+        $kairosPublishService = new KairosPublishService(new Kairos);
+        $this->assertInstanceOf(KairosPublishService::class, $kairosPublishService);
     }
 
     /**
@@ -27,14 +27,14 @@ class KairosPublishServiceTest extends TestCase
         $event = 'event';
         $pubChannel = 'pubChannel';
 
-        $KairosMock = Mockery::mock(Kairos::class);
+        $kairosMock = Mockery::mock(Kairos::class);
 
-        $KairosMock->shouldReceive('connect')
+        $kairosMock->shouldReceive('connect')
             ->once()
             ->withAnyArgs()
             ->andReturn(true);
 
-        $KairosMock->shouldReceive('publish')
+        $kairosMock->shouldReceive('publish')
             ->once()
             ->with($pubChannel, [
                 'data' => $data,
@@ -42,17 +42,17 @@ class KairosPublishServiceTest extends TestCase
             ])
             ->andReturn([]);
 
-        $KairosPublishServiceMock = Mockery::mock(KairosPublishService::class, [ $KairosMock ])
+        $kairosPublishServiceMock = Mockery::mock(KairosPublishService::class, [ $kairosMock ])
             ->makePartial();
         
-        $KairosPublishServiceMock->connectKairos = null;
+        $kairosPublishServiceMock->connectKairos = null;
 
-        $KairosPublishServiceMock->shouldReceive('getConfig')
+        $kairosPublishServiceMock->shouldReceive('getConfig')
             ->once()
             ->with('kairos_redis')
             ->andReturn([]);
         
-        $result = $KairosPublishServiceMock->publishKairos($data, $event, $pubChannel);
+        $result = $kairosPublishServiceMock->publishKairos($data, $event, $pubChannel);
         $this->assertEquals([], $result);
     }
 }
