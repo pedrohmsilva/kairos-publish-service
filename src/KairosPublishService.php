@@ -30,7 +30,7 @@ class KairosPublishService
         array $data,
         string $event,
         string $pubChannel
-    ): array {
+    ) : array {
         if (!$this->connectKairos) {
             $this->connectKairos = $this->kairos->connect(
                 $this->getConfig('kairos_redis')
@@ -51,7 +51,7 @@ class KairosPublishService
      */
     public function getConfig(
         string $config
-    ): array {
+    ) : array {
         return config($config);
     }
 }
